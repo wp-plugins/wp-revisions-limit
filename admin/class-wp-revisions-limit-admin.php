@@ -45,9 +45,14 @@ class Wp_Revisions_Limit_Admin {
 	private $options;
 
 	/**
+	 * Holds the name of WP_POST_REVISIONS constant
+	 */
+	const WP_POST_REVISIONS = 'WP_POST_REVISIONS';
+
+	/**
 	 * Holds the default value of revisions number
 	 */
-	private $default_revisions_limit;
+	const DEFAULT_REVISIONS_LIMIT = 5;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -60,7 +65,6 @@ class Wp_Revisions_Limit_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		$this->default_revisions_limit = 5;
 
 	}
 
@@ -185,7 +189,16 @@ class Wp_Revisions_Limit_Admin {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
-		require_once 'partials/wp-revisions-limit-admin-display.php';
+		$wp_config_file = $_SERVER["DOCUMENT_ROOT"] . '/wp-config.php';
+		$contents = file_get_contents( $wp_config_file );
+		$pattern = "define\(( )?'WP_POST_REVISIONS'";
+		$pattern = "/^$pattern.*/m";
+
+		if ( !preg_match_all( $pattern, $contents, $matches ) ) {
+			require_once 'partials/wp-revisions-limit-admin-display.php';
+		} else {
+			wp_die( __( 'Constant WP_POST_REVISIONS is already defined in wp-config.php file, remove it to be able to set up a limit for your post revisions.' ) );
+		}
 
 	}
 
@@ -210,18 +223,19 @@ class Wp_Revisions_Limit_Admin {
 	 */
 	public function define_post_revisions() {
 
-		$this->load_options();
-		
-		if ( isset( $this->options['revisions_limit'] ) && $this->options['revisions_limit'] != '' ) {
-			if ( is_numeric( $this->options['revisions_limit'] ) ) {
-				define( 'WP_POST_REVISIONS', (int)$this->options['revisions_limit'] + 1 );
+		if ( !defined( self::WP_POST_REVISIONS ) ) {
+			$this->load_options();
+			
+			if ( isset( $this->options['revisions_limit'] ) && $this->options['revisions_limit'] != '' ) {
+				if ( is_numeric( $this->options['revisions_limit'] ) ) {
+					define( self::WP_POST_REVISIONS, (int)$this->options['revisions_limit'] + 1 );
+				} else {
+					define( self::WP_POST_REVISIONS, self::DEFAULT_REVISIONS_LIMIT );
+				}
 			} else {
-				define( 'WP_POST_REVISIONS', $this->default_revisions_limit );
+				define( self::WP_POST_REVISIONS, self::DEFAULT_REVISIONS_LIMIT );
 			}
-		} else {
-			define( 'WP_POST_REVISIONS', $this->default_revisions_limit );
 		}
-
 	}
 
 	/** 
@@ -231,8 +245,9 @@ class Wp_Revisions_Limit_Admin {
 	 */
 	public function load_options() {
 
-		if ( !$this->options )
+		if ( !isset( $this->options ) ) {
 			$this->options = get_option( 'revisions_limit_option' );
+		}
 
 		return $this->options;
 

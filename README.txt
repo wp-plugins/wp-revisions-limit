@@ -3,7 +3,7 @@ Contributors: barragan
 Tags: revision, revisions, admin
 Requires at least: 3.6
 Tested up to: 4.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ This section describes how to install the plugin and get it working.
 Navigate to **Settings > Revisions Limit** in your WordPress Dashboard, and look for the **Revisions Options** section.
 
 == Changelog ==
+
+= 1.0.1 =
+* Check if WP_POST_REVISIONS is already defined in wp-config.php file.
 
 = 1.0.0 =
 * Initial public release
