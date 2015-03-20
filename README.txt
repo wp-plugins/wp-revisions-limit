@@ -1,5 +1,5 @@
 === WP REVISIONS LIMIT ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: barragan
 Donate link: http://example.com/
 Tags: revision, revisions, admin
 Requires at least: 3.6
