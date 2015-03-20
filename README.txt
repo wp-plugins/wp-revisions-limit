@@ -32,7 +32,7 @@ Navigate to **Settings > Revisions Limit** in your WordPress Dashboard, and look
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.0 =
 * Initial public release
 
 == Screenshots ==
