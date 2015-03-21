@@ -1,6 +1,6 @@
 === WP Revisions Limit ===
 Contributors: barragan
-Tags: revision, revisions, admin
+Tags: revision, revisions, admin, post revisions, page revisions
 Requires at least: 3.6
 Tested up to: 4.1
 Stable tag: 1.0.2
