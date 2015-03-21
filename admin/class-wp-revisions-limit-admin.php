@@ -50,11 +50,6 @@ class Wp_Revisions_Limit_Admin {
 	const WP_POST_REVISIONS = 'WP_POST_REVISIONS';
 
 	/**
-	 * Holds the default value of revisions number
-	 */
-	const DEFAULT_REVISIONS_LIMIT = 5;
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -232,8 +227,6 @@ class Wp_Revisions_Limit_Admin {
 				} else {
 					define( self::WP_POST_REVISIONS, self::DEFAULT_REVISIONS_LIMIT );
 				}
-			} else {
-				define( self::WP_POST_REVISIONS, self::DEFAULT_REVISIONS_LIMIT );
 			}
 		}
 	}

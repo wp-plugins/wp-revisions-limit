@@ -32,6 +32,9 @@ Navigate to **Settings > Revisions Limit** in your WordPress Dashboard, and look
 
 == Changelog ==
 
+= 1.0.2 =
+* Removed default limit of revisions assign by this plugin.
+
 = 1.0.1 =
 * Check if WP_POST_REVISIONS is already defined in wp-config.php file.
 
