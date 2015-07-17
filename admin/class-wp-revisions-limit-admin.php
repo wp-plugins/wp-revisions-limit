@@ -184,7 +184,11 @@ class Wp_Revisions_Limit_Admin {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
-		$wp_config_file = $_SERVER["DOCUMENT_ROOT"] . '/wp-config.php';
+		if ( !function_exists( 'get_home_path' ) )
+			require_once( plugin_dir_path( dirname( __FILE__ ) ) . '../../../wp-admin/includes/file.php' );
+
+		$wp_config_file = trailingslashit( get_home_path() ) . 'wp-config.php';
+
 		$contents = file_get_contents( $wp_config_file );
 		$pattern = "define\(( )?'WP_POST_REVISIONS'";
 		$pattern = "/^$pattern.*/m";
@@ -221,12 +225,12 @@ class Wp_Revisions_Limit_Admin {
 		if ( !defined( self::WP_POST_REVISIONS ) ) {
 			$this->load_options();
 			
-			if ( isset( $this->options['revisions_limit'] ) && $this->options['revisions_limit'] != '' ) {
-				if ( is_numeric( $this->options['revisions_limit'] ) ) {
+			if ( isset( $this->options['revisions_limit'] )
+				&& $this->options['revisions_limit'] != ''
+				&& is_numeric( $this->options['revisions_limit'] )
+				)
+			{
 					define( self::WP_POST_REVISIONS, (int)$this->options['revisions_limit'] + 1 );
-				} else {
-					define( self::WP_POST_REVISIONS, self::DEFAULT_REVISIONS_LIMIT );
-				}
 			}
 		}
 	}
